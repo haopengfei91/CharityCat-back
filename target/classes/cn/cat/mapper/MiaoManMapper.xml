@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.cat.mapper.MiaoManMapper">
+	<select id="findMiaoMan" resultType="java.lang.Integer"
+		parameterType="cn.cat.query.UserLoginQuery">
+		SELECT id FROM miao_man WHERE
+		<if test="logname!=null">
+			logname = #{logname} and password=#{password}
+		</if>
+		<if test="phone!=null">
+			phone = #{phone} and password=#{password}
+		</if>
+		<if test="mail!=null">
+			mail = #{mail} and password=#{password}
+		</if>
+	</select>
+</mapper>
