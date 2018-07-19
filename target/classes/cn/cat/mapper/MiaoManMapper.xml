@@ -16,8 +16,8 @@
 	</select>
 	<insert id="insertMiaoMan" parameterType="cn.cat.pojo.MiaoMan">
 		INSERT INTO
-		miao_man(id,mail,logname,password)
-		VALUES(#{id},#{mail},#{name},#{password})
+		miao_man(id,mail,logname,password,buildtime)
+		VALUES(#{id},#{mail},#{name},#{password},#{buildtime})
 	</insert>
 	<select id="findMiaoManByMail" parameterType="java.lang.String"
 		resultType="java.lang.Integer">
@@ -28,4 +28,8 @@
 		UPDATE miao_man SET password = #{password} WHERE mail
 		= #{mail}
 	</update>
+	<select id="selectMiaoMan" parameterType="java.lang.String"
+		resultType="cn.cat.pojo.MiaoMan">
+		SELECT * FROM miao_man WHERE id = #{id}
+	</select>
 </mapper>

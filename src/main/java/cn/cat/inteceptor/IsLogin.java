@@ -22,7 +22,7 @@ public class IsLogin implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		System.out.println(request.getRequestURI());
-		if (!tokenInfo.isTokenExist("")) {
+		/*if (!tokenInfo.isTokenExist("")) {
 			response.setContentType("application/json");
 			response.setCharacterEncoding("utf8");
 			PrintWriter out = response.getWriter();
@@ -34,7 +34,7 @@ public class IsLogin implements HandlerInterceptor {
 			out.flush();
 			out.close();
 			return false;
-		}
+		}*/
 		return true;
 	}
 

@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -71,7 +70,19 @@ public class UserService {
 		}
 	}
 
-	public Map<String, String> forgetPass(String mail, String newpass,String verificatCode) {
-		return null;
+	public Map<String, String> forgetPass(String mail, String newpass, String verificatCode) {
+		Map<String, String> map = new HashMap<>();
+		if (verificatCodeCache.getVerificatCode(mail).equals(verificatCode)) {
+			if (mapper.updateMiaoManPass(mail, newpass) > 0) {
+				map.put("code", "200");
+				map.put("message", "修改密码成功");
+				return map;
+			}
+			return null;
+		} else {
+			map.put("code", "404");
+			map.put("message", "验证码错误");
+			return map;
+		}
 	}
 }

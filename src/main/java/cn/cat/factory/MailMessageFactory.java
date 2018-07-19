@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.mail.SimpleMailMessage;
 
 public class MailMessageFactory {
+	//邮箱模板
 	public static SimpleMailMessage getMailMessageTemplate(String mail,String verificatCode) {
 		SimpleMailMessage mailMessage = new SimpleMailMessage();
 		mailMessage.setFrom("497804227@qq.com");
