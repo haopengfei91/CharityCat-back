@@ -1,24 +1,39 @@
 package cn.cat.inteceptor;
 
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import cn.cat.task.TokenInfo;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import cn.cat.cache.TokenCache;
 
 public class IsLogin implements HandlerInterceptor {
 
 	@Autowired
-	private TokenInfo tokenInfo;
-	
+	private TokenCache tokenInfo;
+
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		//不是登录请求,进入进行token判断
-		if(!request.getRequestURI().endsWith("login")) {
-			//return tokenInfo.isTokenExist("");
-			return true;
+		System.out.println(request.getRequestURI());
+		if (!tokenInfo.isTokenExist("")) {
+			response.setContentType("application/json");
+			response.setCharacterEncoding("utf8");
+			PrintWriter out = response.getWriter();
+			Map<String, String> map = new HashMap<>();
+			map.put("code", "401");
+			map.put("message", "身份信息失效,请重新登录");
+			ObjectMapper obj = new ObjectMapper();
+			out.print(obj.writeValueAsString(map));
+			out.flush();
+			out.close();
+			return false;
 		}
 		return true;
 	}

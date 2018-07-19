@@ -1,4 +1,4 @@
-package cn.cat.task;
+package cn.cat.cache;
 
 import java.util.Calendar;
 import java.util.Collection;
@@ -7,11 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class TokenInfo {
+public class TokenCache {
 	// 存储token信息集合
 	private static ConcurrentHashMap<String, Map<String, String>> tokenInfo = new ConcurrentHashMap<>();
-
-	// 添加新的token信息,date是有效几个小时
+	// 添加新的token信息,hour是有效几个小时
 	public void addToken(Integer id, String token, Integer hour) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
@@ -21,9 +20,9 @@ public class TokenInfo {
 		map.put("expiry", ((Long) cal.getTimeInMillis()).toString());
 		tokenInfo.put(id.toString(), map);
 	}
-
 	// token有效时长计算
 	public void countTokenExpiry() {
+		System.out.println(tokenInfo);
 		tokenInfo.forEach((k, v) -> {
 			Long storeTime = Long.parseLong(v.get("expiry"));
 			if (storeTime <= new Date().getTime()) {
@@ -31,7 +30,6 @@ public class TokenInfo {
 			}
 		});
 	}
-
 	// 判断token是否有效
 	public Boolean isTokenExist(String token) {
 		Collection<Map<String, String>> values = tokenInfo.values();
@@ -43,7 +41,7 @@ public class TokenInfo {
 	}
 
 	// 退出登录时移除token信息
-	public void tokenRemove(String id) {
+	public void removeToken(String id) {
 		tokenInfo.remove(id);
 	}
 }

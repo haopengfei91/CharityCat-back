@@ -14,6 +14,8 @@
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/user/**" />
+			<mvc:exclude-mapping path="/druid/**" />
 			<bean class="cn.cat.inteceptor.IsLogin"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors>

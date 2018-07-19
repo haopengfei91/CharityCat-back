@@ -14,4 +14,18 @@
 			mail = #{mail} and password=#{password}
 		</if>
 	</select>
+	<insert id="insertMiaoMan" parameterType="cn.cat.pojo.MiaoMan">
+		INSERT INTO
+		miao_man(id,mail,logname,password)
+		VALUES(#{id},#{mail},#{name},#{password})
+	</insert>
+	<select id="findMiaoManByMail" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM miao_man WHERE mail = #{mail}
+	</select>
+	<update id="updateMiaoManPass">
+		UPDATE miao_man SET password = #{password} WHERE mail
+		= #{mail}
+	</update>
 </mapper>

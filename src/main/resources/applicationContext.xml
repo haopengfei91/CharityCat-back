@@ -30,9 +30,27 @@
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="cn.cat.mapper"></property>
 	</bean>
-	<!-- 定时器配置 -->
-	<bean class="cn.cat.task.TokenInfo" id="tokenInfo"></bean>
+	<!-- token定时器配置 -->
+	<bean class="cn.cat.cache.TokenCache" id="tokenInfo"></bean>
 	<task:scheduled-tasks>
-	<task:scheduled ref="tokenInfo" method="countTokenExpiry" cron="0/10 * * * * ? "/>
+		<task:scheduled ref="tokenInfo"
+			method="countTokenExpiry" cron="0 0 0-3 * * ? " />
 	</task:scheduled-tasks>
+	<!-- 验证码有效期定时器 -->
+	<bean class="cn.cat.cache.VerificatCodeCache"
+		id="verificatCodeCache"></bean>
+	<task:scheduled-tasks>
+		<task:scheduled ref="verificatCodeCache"
+			method="countVerificatCodeExpiry" cron="0/20 * * * * ? " />
+	</task:scheduled-tasks>
+	<!-- 邮箱配置 -->
+	<bean class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="username" value="497804227@qq.com"></property>
+		<property name="password" value="fgungiauwbjubjed"></property>
+		<property name="host" value="smtp.qq.com"></property>
+		<property name="protocol" value="smtp"></property>
+		<property name="port" value="587"></property>
+		<property name="defaultEncoding" value="UTF-8"></property>
+	</bean>
+	<!-- 缓存验证码 -->
 </beans>
