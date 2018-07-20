@@ -18,25 +18,36 @@ public class user {
 
 	@Autowired
 	private UserService userService;
-	
-	//登录接口
-	@PostMapping("/login")
+
+	// 登录接口
+	@GetMapping("/login")
 	public Map<String, String> login(HttpServletRequest req, UserLoginQuery query) throws Exception {
-		return userService.login(req, query);
+		//return userService.login(req, query);
+		System.out.println(req.getSession().getId());
+		return null;
 	}
-	//注册接口
+
+	// 注册接口
 	@PostMapping("/register")
 	public Map<String, String> register(UserPojo man, String verificatCode) {
 		return userService.register(man, verificatCode);
 	}
-	//邮箱验证码接口
-	@GetMapping("/VerificatCode/{mail:.+}")
+
+	// 邮箱验证码接口
+	@GetMapping("/verificatCode/{mail:.+}")
 	public void VerificatCode(@PathVariable String mail) {
 		userService.VerificatCode(mail);
 	}
-	//密码找回接口
+
+	// 密码找回接口
 	@PostMapping("/forget-pass")
 	public Map<String, String> forgetPass(String mail, String newpass, String verificatCode) {
 		return userService.forgetPass(mail, newpass, verificatCode);
+	}
+
+	// 退出登录，移除该账号的token
+	@PostMapping("/loginout/{userid}")
+	public void loginout(@PathVariable String userid) {
+		userService.loginout(userid);
 	}
 }

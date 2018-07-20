@@ -11,14 +11,14 @@ public class TokenCache {
 	// 存储token信息集合
 	private static ConcurrentHashMap<String, Map<String, String>> tokenInfo = new ConcurrentHashMap<>();
 	// 添加新的token信息,hour是有效几个小时
-	public void addToken(Integer id, String token, Integer hour) {
+	public void addToken(String userid, String token, Integer hour) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
 		cal.add(Calendar.HOUR, hour);
 		Map<String, String> map = new HashMap<>();
 		map.put("token", token);
 		map.put("expiry", ((Long) cal.getTimeInMillis()).toString());
-		tokenInfo.put(id.toString(), map);
+		tokenInfo.put(userid, map);
 	}
 	// token有效时长计算
 	public void countTokenExpiry() {
@@ -41,7 +41,7 @@ public class TokenCache {
 	}
 
 	// 退出登录时移除token信息
-	public void removeToken(String id) {
-		tokenInfo.remove(id);
+	public void removeToken(String userid) {
+		tokenInfo.remove(userid);
 	}
 }

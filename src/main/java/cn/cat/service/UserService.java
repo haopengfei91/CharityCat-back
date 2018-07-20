@@ -27,7 +27,7 @@ public class UserService {
 	private JavaMailSenderImpl mailSender;
 
 	public Map<String, String> login(HttpServletRequest req, UserLoginQuery query) {
-		Integer userId = mapper.findUser(query);
+		String userId = mapper.findUser(query);
 		Map<String, String> map = new HashMap<>();
 		if (userId != null) {
 			String token = req.getSession().getId();
@@ -51,6 +51,7 @@ public class UserService {
 		Map<String, String> map = new HashMap<>();
 		man.setUserid(RandomIdUtil.randomUserId());
 		String mail = man.getMail();
+		System.out.println(mail);
 		if (verificatCodeCache.getVerificatCode(mail).equals(verificatCode)) {
 			if (mapper.findUserByMail(mail) > 0) {
 				map.put("code", "404");
@@ -84,5 +85,9 @@ public class UserService {
 			map.put("message", "验证码错误");
 			return map;
 		}
+	}
+
+	public void loginout(String userid) {
+		verificatCodeCache.removeVerificatCode(userid);
 	}
 }

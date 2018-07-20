@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.cat.mapper.UserMapper">
-	<select id="findUser" resultType="java.lang.Integer"
+	<select id="findUser" resultType="java.lang.String"
 		parameterType="cn.cat.query.UserLoginQuery">
 		SELECT userid FROM user WHERE
 		<if test="username!=null">
@@ -14,7 +14,7 @@
 			mail = #{mail} and password=#{password}
 		</if>
 	</select>
-	<insert id="insertUser" parameterType="cn.cat.pojo.UserPojo">
+	<insert id="insertUser" parameterType="cn.cat.pojo.UserPojo" >
 		INSERT INTO
 		user(userid,mail,username,password)
 		VALUES(#{userid},#{mail},#{username},#{password})
@@ -24,7 +24,7 @@
 		SELECT COUNT(*)
 		FROM user WHERE mail = #{mail}
 	</select>
-	<update id="updateUserPass">
+	<update id="updateUserPass" >
 		UPDATE user SET password = #{password} WHERE mail
 		=
 		#{mail}

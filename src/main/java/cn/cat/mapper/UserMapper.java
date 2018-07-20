@@ -4,7 +4,7 @@ import cn.cat.pojo.UserPojo;
 import cn.cat.query.UserLoginQuery;
 
 public interface UserMapper {
-	public Integer findUser(UserLoginQuery query);
+	public String findUser(UserLoginQuery query);
 
 	public void insertUser(UserPojo man);
 
