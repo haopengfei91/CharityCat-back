@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import cn.cat.pojo.MiaoMan;
+import cn.cat.pojo.UserPojo;
 import cn.cat.query.UserLoginQuery;
 import cn.cat.service.UserService;
 
@@ -26,7 +26,7 @@ public class user {
 	}
 	//注册接口
 	@PostMapping("/register")
-	public Map<String, String> register(MiaoMan man, String verificatCode) {
+	public Map<String, String> register(UserPojo man, String verificatCode) {
 		return userService.register(man, verificatCode);
 	}
 	//邮箱验证码接口

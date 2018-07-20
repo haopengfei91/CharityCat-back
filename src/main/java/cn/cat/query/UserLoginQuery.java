@@ -1,17 +1,17 @@
 package cn.cat.query;
 
 public class UserLoginQuery {
-	private String logname;
+	private String username;
 	private String phone;
 	private String mail;
 	private String password;
 
-	public String getLogname() {
-		return logname;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setLogname(String logname) {
-		this.logname = logname;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPhone() {
@@ -40,10 +40,8 @@ public class UserLoginQuery {
 
 	@Override
 	public String toString() {
-		return "UserLoginQuery [logname=" + logname + ", phone=" + phone + ", mail=" + mail + ", password=" + password
+		return "UserLoginQuery [username=" + username + ", phone=" + phone + ", mail=" + mail + ", password=" + password
 				+ "]";
 	}
-
-
 
 }

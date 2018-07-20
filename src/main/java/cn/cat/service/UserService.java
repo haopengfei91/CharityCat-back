@@ -1,6 +1,5 @@
 package cn.cat.service;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -11,14 +10,15 @@ import org.springframework.stereotype.Service;
 import cn.cat.cache.TokenCache;
 import cn.cat.cache.VerificatCodeCache;
 import cn.cat.factory.MailMessageFactory;
-import cn.cat.mapper.MiaoManMapper;
-import cn.cat.pojo.MiaoMan;
+import cn.cat.mapper.UserMapper;
+import cn.cat.pojo.UserPojo;
 import cn.cat.query.UserLoginQuery;
+import cn.cat.util.RandomIdUtil;
 
 @Service
 public class UserService {
 	@Autowired
-	private MiaoManMapper mapper;
+	private UserMapper mapper;
 	@Autowired
 	private TokenCache tokenCache;
 	@Autowired
@@ -27,7 +27,7 @@ public class UserService {
 	private JavaMailSenderImpl mailSender;
 
 	public Map<String, String> login(HttpServletRequest req, UserLoginQuery query) {
-		Integer userId = mapper.findMiaoMan(query);
+		Integer userId = mapper.findUser(query);
 		Map<String, String> map = new HashMap<>();
 		if (userId != null) {
 			String token = req.getSession().getId();
@@ -47,17 +47,17 @@ public class UserService {
 		mailSender.send(MailMessageFactory.getMailMessageTemplate(mail, verificatCode));
 	}
 
-	public Map<String, String> register(MiaoMan man, String verificatCode) {
+	public Map<String, String> register(UserPojo man, String verificatCode) {
 		Map<String, String> map = new HashMap<>();
-		man.setId(String.valueOf(new Date().getTime()));
+		man.setUserid(RandomIdUtil.randomUserId());
 		String mail = man.getMail();
 		if (verificatCodeCache.getVerificatCode(mail).equals(verificatCode)) {
-			if (mapper.findMiaoManByMail(mail) > 0) {
+			if (mapper.findUserByMail(mail) > 0) {
 				map.put("code", "404");
 				map.put("message", "该邮箱已被注册");
 				return map;
 			} else {
-				mapper.insertMiaoMan(man);
+				mapper.insertUser(man);
 				map.put("code", "200");
 				map.put("message", "注册成功");
 				verificatCodeCache.removeVerificatCode(mail);
@@ -73,7 +73,7 @@ public class UserService {
 	public Map<String, String> forgetPass(String mail, String newpass, String verificatCode) {
 		Map<String, String> map = new HashMap<>();
 		if (verificatCodeCache.getVerificatCode(mail).equals(verificatCode)) {
-			if (mapper.updateMiaoManPass(mail, newpass) > 0) {
+			if (mapper.updateUserPass(mail, newpass) > 0) {
 				map.put("code", "200");
 				map.put("message", "修改密码成功");
 				return map;

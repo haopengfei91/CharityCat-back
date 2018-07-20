@@ -30,7 +30,7 @@ public class TokenCache {
 			}
 		});
 	}
-	// 判断token是否有效
+	// 判断token是否存在
 	public Boolean isTokenExist(String token) {
 		Collection<Map<String, String>> values = tokenInfo.values();
 		for (Map<String, String> map : values) {
