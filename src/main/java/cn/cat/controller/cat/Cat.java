@@ -1,6 +1,9 @@
 package cn.cat.controller.cat;
 
+import java.sql.SQLException;
 import java.util.Map;
+
+import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,10 +20,17 @@ import cn.cat.service.CatService;
 public class Cat {
 	@Autowired
 	private CatService catService;
+	@Autowired
+	DataSource ds;
 
 	@GetMapping("/cat-list")
 	public Map<String, Object> catList(LimitQuery query) {
-
+		try {
+			System.out.println(ds.getConnection());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 
